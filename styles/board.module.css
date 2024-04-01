@@ -1,7 +1,10 @@
 .board {
+	width: calc(var(--pixel-size) * 8 * 4 + var(--pixel-size) * 10);
 }
 
 .grid {
+	display: flex;
+	flex-wrap: wrap;
 	background-color: var(--secondary-background);
 	border: var(--pixel-size) solid var(--secondary-background);
 	border-radius: calc(var(--pixel-size) * 0.75); /* 6px */
@@ -10,7 +13,7 @@
 .cell {
 	width: calc(var(--pixel-size) * 8);
 	height: calc(var(--pixel-size) * 8);
-	margin: calc(var(--pixel-size) * 0.5);
+	margin: calc(var(--pixel-size) * 1);
 	border-radius: calc(var(--pixel-size) * 0.5);
 	background: var(--cell-background);
 }

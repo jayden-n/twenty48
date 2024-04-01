@@ -2,7 +2,7 @@ import styles from "@/styles/board.module.css";
 
 const Board = () => {
 	const renderGrid = () => {
-		const totalCellsCount = 16; // 4x4 dimension
+		const totalCellsCount = 16; // 4x4 dimensions
 		const cells: JSX.Element[] = [];
 
 		for (let index = 0; index < totalCellsCount; index++) {
