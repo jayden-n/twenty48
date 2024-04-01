@@ -1,6 +1,12 @@
 :root {
 	--pixel-size: 8px;
+
+	/* Backgrounds */
 	--primary-background: #faf8ef;
+	--secondary-background: #bbada0;
+	--cell-background: #cac1b5;
+
+	/* Texts */
 	--primary-text-color: #776e65;
 }
 
