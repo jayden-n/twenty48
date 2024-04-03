@@ -1,4 +1,5 @@
 import { Tile } from "@/models/title";
+import { uid } from "uid";
 
 type State = {
 	board: string[][];
@@ -14,13 +15,6 @@ type Action = {
 	tile: Tile;
 };
 
-// [
-// 	[0, 0, 0, 0],
-// 	[0, 0, 0, 0],
-// 	[0, 0, 0, 0],
-// 	[0, 0, 0, 0],
-// ];
-
 function createBoard(tileCountPerDimension: number = 4) {
 	const board: string[][] = []; // 2-dimensional array
 
@@ -31,16 +25,29 @@ function createBoard(tileCountPerDimension: number = 4) {
 	return board;
 }
 
-const initialState: State = { board: createBoard(), tiles: {} };
+// [
+// 	[0, 0, 0, 0],
+// 	[0, 0, 0, 0],
+// 	[0, 0, 0, 0],
+// 	[0, 0, 0, 0],
+// ];
+
+export const initialState: State = { board: createBoard(), tiles: {} };
 
 export function gameReducer(state = initialState, action: Action) {
 	switch (action.type) {
 		case "create_tile": {
-			const tileId = "00001";
+			const tileId = uid(); // placeholder ID for the new tile
 			const [x, y] = action.tile.position; // axis
 			const newBoard = JSON.parse(JSON.stringify(state.board)); // creates a deep copy =>  ensures the original state is not mutated
-
 			newBoard[y][x] = tileId;
+
+			// [
+			// 	[0, 0, 0, 0],
+			// 	[0, 0, "00001", 0],
+			// 	[0, 0, 0, 0],
+			// 	[0, 0, 0, 0],
+			// ];
 
 			return {
 				...state,
