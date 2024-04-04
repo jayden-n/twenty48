@@ -1,5 +1,5 @@
 export type Tile = {
 	id?: string;
-	position: [number, number]; // x & y axis
+	position: [number, number]; // y & x axis
 	value: number;
 };
