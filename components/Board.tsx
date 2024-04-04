@@ -1,11 +1,12 @@
 import styles from "@/styles/board.module.css";
 import Tile from "./Tile";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { gameReducer, initialState } from "@/reducers/game-reducer";
 import { Tile as TileModel } from "@/models/tile";
 
 const Board = () => {
 	const [gameState, dispatch] = useReducer(gameReducer, initialState);
+	const initiallized = useRef(false);
 
 	const renderGrid = () => {
 		const totalCellsCount = 16; // 4x4 dimensions
@@ -32,9 +33,22 @@ const Board = () => {
 		);
 	};
 
+	// dispatch funcs
 	useEffect(() => {
-		dispatch({ type: "create_tile", tile: { position: [0, 1], value: 2 } });
-		dispatch({ type: "create_tile", tile: { position: [0, 2], value: 2 } });
+		if (initiallized.current === false) {
+			dispatch({
+				type: "create_tile",
+				tile: { position: [0, 1], value: 2 },
+			});
+			dispatch({
+				type: "create_tile",
+				tile: { position: [0, 2], value: 2 },
+			});
+
+			// after the tiles have been created
+			// ...tiles should not be created again on subsequent renders
+			initiallized.current = true;
+		}
 	}, []);
 
 	return (
