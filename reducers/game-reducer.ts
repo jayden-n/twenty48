@@ -1,4 +1,4 @@
-import { Tile } from "@/models/title";
+import { Tile } from "@/models/tile";
 import { uid } from "uid";
 
 type State = {
@@ -37,7 +37,7 @@ export const initialState: State = { board: createBoard(), tiles: {} };
 export function gameReducer(state = initialState, action: Action) {
 	switch (action.type) {
 		case "create_tile": {
-			const tileId = uid(); // placeholder ID for the new tile
+			const tileId = uid((length = 1)); // placeholder ID for the new tile
 			const [x, y] = action.tile.position; // axis
 			const newBoard = JSON.parse(JSON.stringify(state.board)); // creates a deep copy =>  ensures the original state is not mutated
 			newBoard[y][x] = tileId;
