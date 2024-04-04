@@ -3,3 +3,7 @@ export type Tile = {
 	position: [number, number]; // y & x axis
 	value: number;
 };
+
+export type TileMap = {
+	[id: string]: Tile;
+};

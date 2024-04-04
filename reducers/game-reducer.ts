@@ -1,13 +1,12 @@
-import { Tile } from "@/models/tile";
+import { tileCountPerDimension } from "@/constants";
+import { Tile, TileMap } from "@/models/tile";
 import { uid } from "uid";
 
 type State = {
 	board: string[][];
-	tiles: {
-		// hashmap
-		// contains many elements which will be mapped with Tile model.
-		[id: string]: Tile;
-	};
+	// hashmap
+	// contains many elements which will be mapped with Tile model.
+	tiles: TileMap;
 };
 
 type Action = {
@@ -15,7 +14,7 @@ type Action = {
 	tile: Tile;
 };
 
-function createBoard(tileCountPerDimension: number = 4) {
+function createBoard() {
 	const board: string[][] = []; // 2-dimensional array
 
 	for (let i = 0; i < tileCountPerDimension; i++) {
