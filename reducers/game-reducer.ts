@@ -1,5 +1,6 @@
 import { tileCountPerDimension } from "@/constants";
 import { Tile, TileMap } from "@/models/tile";
+import { isNil } from "lodash";
 import { uid } from "uid";
 
 type State = {
@@ -9,10 +10,12 @@ type State = {
 	tiles: TileMap;
 };
 
-type Action = {
-	type: "create_tile";
-	tile: Tile;
-};
+type Action =
+	| {
+			type: "create_tile";
+			tile: Tile;
+	  }
+	| { type: "move_up" };
 
 function createBoard() {
 	const board: string[][] = []; // 2-dimensional array
@@ -57,6 +60,40 @@ export function gameReducer(state = initialState, action: Action) {
 				},
 			};
 		}
+
+		case "move_up": {
+			const newBoard = createBoard();
+			const newTiles: TileMap = {};
+
+			for (let x = 0; x < tileCountPerDimension; x++) {
+				// game moves up ⬆️
+				// Y axis always 0
+				let newY = 0;
+
+				// loop through each cell in the current column
+				for (let y = 0; y < tileCountPerDimension; y++) {
+					// get the tile ID at the current cell position
+					const tileId = state.board[y][x];
+
+					// check if there is a tile at the current position
+					if (!isNil(tileId)) {
+						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
+						newTiles[tileId] = {
+							...state.tiles[tileId],
+							position: [x, newY],
+						};
+						newY++;
+					}
+				}
+			}
+
+			return {
+				...state,
+				board: newBoard,
+				tiles: newTiles,
+			};
+		}
+
 		default:
 			return state;
 	}
