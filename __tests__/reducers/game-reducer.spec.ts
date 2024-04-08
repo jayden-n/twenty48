@@ -130,3 +130,50 @@ describe("gameReducer", () => {
 		});
 	});
 });
+
+describe("move_left", () => {
+	it("should move tiles to the left of the board", () => {
+		const tile1: Tile = {
+			position: [0, 1],
+			value: 2,
+		};
+
+		const tile2: Tile = {
+			position: [1, 3],
+			value: 4,
+		};
+
+		const { result } = renderHook(() =>
+			useReducer(gameReducer, initialState),
+		);
+		const [, dispatch] = result.current;
+
+		act(() => {
+			dispatch({ type: "create_tile", tile: tile1 });
+			dispatch({ type: "create_tile", tile: tile2 });
+		});
+
+		//   board: [
+		//     [ null, null, null, null ],
+		//     [ '2', null, null, null ],
+		//     [ null, null, null, null ],
+		//     [ null, '4', null, null ]
+		//   ],
+
+		// ============== BEFORE MOVING ==============
+		const [stateBefore] = result.current;
+
+		expect(isNil(stateBefore.board[3][0])).toBeTruthy();
+		expect(typeof stateBefore.board[1][0]).toBe("string");
+		expect(typeof stateBefore.board[3][1]).toBe("string");
+
+		act(() => dispatch({ type: "move_left" }));
+
+		// ============== AFTER MOVING ==============
+		const [stateAfter] = result.current;
+
+		expect(typeof stateAfter.board[1][0]).toBe("string");
+		expect(typeof stateAfter.board[3][0]).toBe("string");
+		expect(isNil(stateAfter.board[3][1])).toBeTruthy();
+	});
+});
