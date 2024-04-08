@@ -8,6 +8,20 @@ const Board = () => {
 	const [gameState, dispatch] = useReducer(gameReducer, initialState);
 	const initiallized = useRef(false);
 
+	const handleKeyDown = (e: KeyboardEvent) => {
+		e.preventDefault();
+
+		console.log(e.code);
+		switch (e.code) {
+			case "ArrowUp":
+				dispatch({ type: "move_up" });
+				break;
+			case "ArrowDown":
+				dispatch({ type: "move_down" });
+				break;
+		}
+	};
+
 	const renderGrid = () => {
 		const totalCellsCount = 16; // 4x4 dimensions
 		const cells: JSX.Element[] = [];
@@ -49,6 +63,13 @@ const Board = () => {
 			// ...tiles should not be created again on subsequent renders
 			initiallized.current = true;
 		}
+	}, []);
+
+	useEffect(() => {
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
 	}, []);
 
 	return (
