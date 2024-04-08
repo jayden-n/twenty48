@@ -6,7 +6,7 @@ import { Tile as TileModel } from "@/models/tile";
 
 const Board = () => {
 	const [gameState, dispatch] = useReducer(gameReducer, initialState);
-	const initiallized = useRef(false);
+	const initialized = useRef(false);
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		e.preventDefault();
@@ -49,7 +49,7 @@ const Board = () => {
 
 	// dispatch funcs
 	useEffect(() => {
-		if (initiallized.current === false) {
+		if (initialized.current === false) {
 			dispatch({
 				type: "create_tile",
 				tile: { position: [0, 1], value: 2 },
@@ -61,7 +61,7 @@ const Board = () => {
 
 			// after the tiles have been created
 			// ...tiles should not be created again on subsequent renders
-			initiallized.current = true;
+			initialized.current = true;
 		}
 	}, []);
 
