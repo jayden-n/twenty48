@@ -76,4 +76,57 @@ describe("gameReducer", () => {
 			expect(isNil(stateAfter.board[3][1])).toBeTruthy();
 		});
 	});
+
+	describe("move_down", () => {
+		it("should move tiles to the bottom of the board", () => {
+			const tile1: Tile = {
+				position: [0, 1],
+				value: 2,
+			};
+
+			const tile2: Tile = {
+				position: [1, 3],
+				value: 4,
+			};
+
+			const { result } = renderHook(() =>
+				useReducer(gameReducer, initialState),
+			);
+			const [, dispatch] = result.current;
+
+			act(() => {
+				dispatch({ type: "create_tile", tile: tile1 });
+				dispatch({ type: "create_tile", tile: tile2 });
+			});
+
+			// ============== BEFORE MOVING ==============
+			const [stateBefore] = result.current;
+
+			//   board: [
+			//     [ null, null, null, null ],
+			//     [ '2', null, null, null ],
+			//     [ null, null, null, null ],
+			//     [ null, '4', null, null ]
+			//   ],
+
+			// checking the soon-to-be filled is null first
+			expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+
+			// check if the tile is filled with strings
+			expect(typeof stateBefore.board[1][0]).toBe("string");
+			expect(typeof stateBefore.board[3][1]).toBe("string");
+
+			console.log("stateBefore", stateBefore);
+			act(() => dispatch({ type: "move_down" }));
+
+			// ============== AFTER MOVING ==============
+			const [stateAfter] = result.current;
+
+			expect(typeof stateAfter.board[3][0]).toBe("string");
+			expect(typeof stateAfter.board[3][1]).toBe("string");
+			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+
+			console.log("stateBefore", stateAfter);
+		});
+	});
 });
