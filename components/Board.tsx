@@ -11,7 +11,7 @@ const Board = () => {
 	const handleKeyDown = (e: KeyboardEvent) => {
 		e.preventDefault();
 
-		console.log(e.code);
+		// tracking keystrokes
 		switch (e.code) {
 			case "ArrowUp":
 				dispatch({ type: "move_up" });
@@ -21,6 +21,9 @@ const Board = () => {
 				break;
 			case "ArrowLeft":
 				dispatch({ type: "move_left" });
+				break;
+			case "ArrowRight":
+				dispatch({ type: "move_right" });
 				break;
 		}
 	};
