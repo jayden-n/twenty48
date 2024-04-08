@@ -116,7 +116,6 @@ describe("gameReducer", () => {
 			expect(typeof stateBefore.board[1][0]).toBe("string");
 			expect(typeof stateBefore.board[3][1]).toBe("string");
 
-			console.log("stateBefore", stateBefore);
 			act(() => dispatch({ type: "move_down" }));
 
 			// ============== AFTER MOVING ==============
@@ -125,8 +124,6 @@ describe("gameReducer", () => {
 			expect(typeof stateAfter.board[3][0]).toBe("string");
 			expect(typeof stateAfter.board[3][1]).toBe("string");
 			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
-
-			console.log("stateBefore", stateAfter);
 		});
 	});
 });
