@@ -362,9 +362,9 @@ describe("move_right", () => {
 		const [stateAfter] = result.current;
 
 		// horizontal line
-		expect(typeof stateAfter.board[1][3]).toBe("string");
 		expect(isNil(stateAfter.board[1][0])).toBeTruthy();
 		expect(isNil(stateAfter.board[1][1])).toBeTruthy();
 		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
+		expect(typeof stateAfter.board[1][3]).toBe("string");
 	});
 });
