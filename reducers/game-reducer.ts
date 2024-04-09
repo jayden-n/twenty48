@@ -74,19 +74,35 @@ export function gameReducer(state = initialState, action: Action) {
 				// game moves up ⬆️
 				// Y axis always 0
 				let newY = 0;
+				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
 				for (let y = 0; y < tileCountPerDimension; y++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
-						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
+						// if there was a tile above it with the same value, stacks together
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [x, newY - 1],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
+						newBoard[newY][x] = tileId; // updates the position of the tile in new game board  after moving it upwards
+
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [x, newY],
 						};
+
+						previousTile = newTiles[tileId];
+						// increments 'newY' to track the next available position in the current column for placing a tile
 						newY++;
 					}
 				}
@@ -113,7 +129,6 @@ export function gameReducer(state = initialState, action: Action) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
 						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
 						newTiles[tileId] = {
@@ -145,7 +160,6 @@ export function gameReducer(state = initialState, action: Action) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
 						newBoard[y][newX] = tileId; // Set the tile ID in the new board at the updated position
 						newTiles[tileId] = {
@@ -177,7 +191,6 @@ export function gameReducer(state = initialState, action: Action) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
 						newBoard[y][newX] = tileId; // Set the tile ID in the new board at the updated position
 						newTiles[tileId] = {

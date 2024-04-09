@@ -84,7 +84,7 @@ describe("gameReducer", () => {
 			};
 			const tile2: Tile = {
 				position: [0, 3],
-				value: 4,
+				value: 2,
 			};
 
 			const { result } = renderHook(() =>
