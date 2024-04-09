@@ -75,6 +75,48 @@ describe("gameReducer", () => {
 			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
 			expect(isNil(stateAfter.board[3][1])).toBeTruthy();
 		});
+
+		// ============== TILE STACKING ==============
+		it("should stack tiles with the same value on top of each other", () => {
+			const tile1: Tile = {
+				position: [0, 1],
+				value: 2,
+			};
+			const tile2: Tile = {
+				position: [0, 3],
+				value: 4,
+			};
+
+			const { result } = renderHook(() =>
+				useReducer(gameReducer, initialState),
+			);
+			const [, dispatch] = result.current;
+
+			act(() => {
+				dispatch({ type: "create_tile", tile: tile1 });
+				dispatch({ type: "create_tile", tile: tile2 });
+			});
+
+			// ============== BEFORE MOVING ==============
+			const [stateBefore] = result.current;
+
+			// vertical line
+			expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+			expect(typeof stateBefore.board[1][0]).toBe("string");
+			expect(isNil(stateBefore.board[2][0])).toBeTruthy();
+			expect(typeof stateBefore.board[3][0]).toBe("string");
+
+			act(() => dispatch({ type: "move_up" }));
+
+			// ============== AFTER MOVING ==============
+			const [stateAfter] = result.current;
+
+			// vertical line
+			expect(typeof stateAfter.board[0][0]).toBe("string");
+			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[2][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[3][0])).toBeTruthy();
+		});
 	});
 
 	describe("move_down", () => {
@@ -102,16 +144,8 @@ describe("gameReducer", () => {
 			// ============== BEFORE MOVING ==============
 			const [stateBefore] = result.current;
 
-			//   board: [
-			//     [ null, null, null, null ],
-			//     [ '2', null, null, null ],
-			//     [ null, null, null, null ],
-			//     [ null, '4', null, null ]
-			//   ],
-
 			// checking the soon-to-be filled is null first
 			expect(isNil(stateBefore.board[0][0])).toBeTruthy();
-
 			// check if the tile is filled with strings
 			expect(typeof stateBefore.board[1][0]).toBe("string");
 			expect(typeof stateBefore.board[3][1]).toBe("string");
@@ -149,13 +183,6 @@ describe("move_left", () => {
 			dispatch({ type: "create_tile", tile: tile1 });
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
-
-		//   board: [
-		//     [ null, null, null, null ],
-		//     [ '2', null, null, null ],
-		//     [ null, null, null, null ],
-		//     [ null, '4', null, null ]
-		//   ],
 
 		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
@@ -195,13 +222,6 @@ describe("move_right", () => {
 			dispatch({ type: "create_tile", tile: tile1 });
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
-
-		//   board: [
-		//     [ null, null, null, null ],
-		//     [ '2', null, null, null ],
-		//     [ null, null, null, null ],
-		//     [ null, '4', null, null ]
-		//   ],
 
 		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
