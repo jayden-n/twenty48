@@ -159,6 +159,48 @@ describe("gameReducer", () => {
 			expect(typeof stateAfter.board[3][1]).toBe("string");
 			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
 		});
+
+		// ============== TILE STACKING ==============
+		it("should stack tiles with the same value at bottom of each other", () => {
+			const tile1: Tile = {
+				position: [0, 1],
+				value: 2,
+			};
+			const tile2: Tile = {
+				position: [0, 3],
+				value: 2,
+			};
+
+			const { result } = renderHook(() =>
+				useReducer(gameReducer, initialState),
+			);
+			const [, dispatch] = result.current;
+
+			act(() => {
+				dispatch({ type: "create_tile", tile: tile1 });
+				dispatch({ type: "create_tile", tile: tile2 });
+			});
+
+			// ============== BEFORE MOVING ==============
+			const [stateBefore] = result.current;
+
+			// vertical line
+			expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+			expect(typeof stateBefore.board[1][0]).toBe("string");
+			expect(isNil(stateBefore.board[2][0])).toBeTruthy();
+			expect(typeof stateBefore.board[3][0]).toBe("string");
+
+			act(() => dispatch({ type: "move_down" }));
+
+			// ============== AFTER MOVING ==============
+			const [stateAfter] = result.current;
+
+			// vertical line
+			expect(isNil(stateAfter.board[0][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[2][0])).toBeTruthy();
+			expect(typeof stateAfter.board[3][0]).toBe("string");
+		});
 	});
 });
 

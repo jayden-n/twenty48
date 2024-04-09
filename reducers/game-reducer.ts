@@ -94,7 +94,7 @@ export function gameReducer(state = initialState, action: Action) {
 							continue;
 						}
 
-						newBoard[newY][x] = tileId; // updates the position of the tile in new game board  after moving it upwards
+						newBoard[newY][x] = tileId; // updates the position of the tile in new game board after moving it upwards
 
 						newTiles[tileId] = {
 							...currentTile,
@@ -123,18 +123,31 @@ export function gameReducer(state = initialState, action: Action) {
 			for (let x = 0; x < tileCountPerDimension; x++) {
 				// game moves down ⬇️
 				let newY = tileCountPerDimension - 1;
+				let previousTile: Tile | undefined;
 
-				// loop through each cell in the current column
 				for (let y = 0; y < tileCountPerDimension; y++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
 					if (!isNil(tileId)) {
-						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [x, newY + 1],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
+						newBoard[newY][x] = tileId; // updates the position of the tile in new game board
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [x, newY],
 						};
+
+						previousTile = newTiles[tileId];
 						newY--;
 					}
 				}
