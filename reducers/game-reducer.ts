@@ -74,19 +74,35 @@ export function gameReducer(state = initialState, action: Action) {
 				// game moves up ⬆️
 				// Y axis always 0
 				let newY = 0;
+				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
 				for (let y = 0; y < tileCountPerDimension; y++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
-						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
+						// if there was a tile above it with the same value, stacks together
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [x, newY - 1],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
+						newBoard[newY][x] = tileId; // updates the position of the tile in new game board after moving it upwards
+
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [x, newY],
 						};
+
+						previousTile = newTiles[tileId];
+						// increments 'newY' to track the next available position in the current column for placing a tile
 						newY++;
 					}
 				}
@@ -107,19 +123,31 @@ export function gameReducer(state = initialState, action: Action) {
 			for (let x = 0; x < tileCountPerDimension; x++) {
 				// game moves down ⬇️
 				let newY = tileCountPerDimension - 1;
+				let previousTile: Tile | undefined;
 
-				// loop through each cell in the current column
 				for (let y = 0; y < tileCountPerDimension; y++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
-						newBoard[newY][x] = tileId; // Set the tile ID in the new board at the updated position
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [x, newY + 1],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
+						newBoard[newY][x] = tileId; // updates the position of the tile in new game board
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [x, newY],
 						};
+
+						previousTile = newTiles[tileId];
 						newY--;
 					}
 				}
@@ -136,22 +164,36 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 
-			for (let x = 0; x < tileCountPerDimension; x++) {
+			for (let y = 0; y < tileCountPerDimension; y++) {
 				// game moves left ⬅️
 				let newX = 0;
+				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
-				for (let y = 0; y < tileCountPerDimension; y++) {
+				for (let x = 0; x < tileCountPerDimension; x++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [newX - 1, y],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
 						newBoard[y][newX] = tileId; // Set the tile ID in the new board at the updated position
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [newX, y],
 						};
+
+						previousTile = newTiles[tileId];
+						newX++;
 					}
 				}
 			}
@@ -168,22 +210,36 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 
-			for (let x = 0; x < tileCountPerDimension; x++) {
+			for (let y = 0; y < tileCountPerDimension; y++) {
 				// game moves right 👉🏼
 				let newX = tileCountPerDimension - 1;
+				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
-				for (let y = 0; y < tileCountPerDimension; y++) {
+				for (let x = 0; x < tileCountPerDimension; x++) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
+					const currentTile = state.tiles[tileId];
 
-					// check if there is a tile at the current position
 					if (!isNil(tileId)) {
+						if (previousTile?.value === currentTile.value) {
+							newTiles[tileId] = {
+								...currentTile,
+								position: [newX + 1, y],
+							};
+							// resetting
+							previousTile = undefined;
+							continue;
+						}
+
 						newBoard[y][newX] = tileId; // Set the tile ID in the new board at the updated position
 						newTiles[tileId] = {
-							...state.tiles[tileId],
+							...currentTile,
 							position: [newX, y],
 						};
+
+						previousTile = newTiles[tileId];
+						newX--;
 					}
 				}
 			}

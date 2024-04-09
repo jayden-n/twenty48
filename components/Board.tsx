@@ -64,6 +64,14 @@ const Board = () => {
 				type: "create_tile",
 				tile: { position: [0, 2], value: 2 },
 			});
+			dispatch({
+				type: "create_tile",
+				tile: { position: [0, 3], value: 4 },
+			});
+			dispatch({
+				type: "create_tile",
+				tile: { position: [2, 3], value: 4 },
+			});
 
 			// after the tiles have been created
 			// ...tiles should not be created again on subsequent renders
