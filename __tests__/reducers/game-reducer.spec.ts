@@ -325,4 +325,46 @@ describe("move_right", () => {
 		expect(isNil(stateAfter.board[1][0])).toBeTruthy();
 		expect(isNil(stateAfter.board[3][1])).toBeTruthy();
 	});
+
+	// ============== TILE STACKING ==============
+	it("should stack tiles with the same value to the right of each other", () => {
+		const tile1: Tile = {
+			position: [0, 1],
+			value: 2,
+		};
+		const tile2: Tile = {
+			position: [3, 1],
+			value: 2,
+		};
+
+		const { result } = renderHook(() =>
+			useReducer(gameReducer, initialState),
+		);
+		const [, dispatch] = result.current;
+
+		act(() => {
+			dispatch({ type: "create_tile", tile: tile1 });
+			dispatch({ type: "create_tile", tile: tile2 });
+		});
+
+		// ============== BEFORE MOVING ==============
+		const [stateBefore] = result.current;
+
+		// horizontal line
+		expect(isNil(stateBefore.board[1][1])).toBeTruthy();
+		expect(typeof stateBefore.board[1][0]).toBe("string");
+		expect(isNil(stateBefore.board[1][2])).toBeTruthy();
+		expect(typeof stateBefore.board[1][3]).toBe("string");
+
+		act(() => dispatch({ type: "move_right" }));
+
+		// ============== AFTER MOVING ==============
+		const [stateAfter] = result.current;
+
+		// horizontal line
+		expect(typeof stateAfter.board[1][3]).toBe("string");
+		expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][1])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
+	});
 });
