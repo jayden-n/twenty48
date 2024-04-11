@@ -186,7 +186,6 @@ describe("gameReducer", () => {
 				dispatch({ type: "create_tile", tile: tile2 });
 			});
 
-			// ============== BEFORE MOVING ==============
 			const [stateBefore] = result.current;
 
 			// checking the soon-to-be filled is null first
@@ -197,7 +196,6 @@ describe("gameReducer", () => {
 
 			act(() => dispatch({ type: "move_down" }));
 
-			// ============== AFTER MOVING ==============
 			const [stateAfter] = result.current;
 
 			expect(typeof stateAfter.board[3][0]).toBe("string");
@@ -226,7 +224,6 @@ describe("gameReducer", () => {
 				dispatch({ type: "create_tile", tile: tile2 });
 			});
 
-			// ============== BEFORE MOVING ==============
 			const [stateBefore] = result.current;
 
 			// vertical line
@@ -237,7 +234,6 @@ describe("gameReducer", () => {
 
 			act(() => dispatch({ type: "move_down" }));
 
-			// ============== AFTER MOVING ==============
 			const [stateAfter] = result.current;
 
 			// vertical line
@@ -268,7 +264,6 @@ describe("gameReducer", () => {
 				dispatch({ type: "create_tile", tile: tile2 });
 			});
 
-			// ============== BEFORE MOVING ==============
 			const [stateBefore] = result.current;
 
 			// vertical line
@@ -279,7 +274,6 @@ describe("gameReducer", () => {
 
 			act(() => dispatch({ type: "move_down" }));
 
-			// ============== AFTER MOVING ==============
 			const [stateAfter] = result.current;
 
 			// vertical line
@@ -315,7 +309,6 @@ describe("move_left", () => {
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
 
-		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
 
 		expect(isNil(stateBefore.board[3][0])).toBeTruthy();
@@ -324,7 +317,6 @@ describe("move_left", () => {
 
 		act(() => dispatch({ type: "move_left" }));
 
-		// ============== AFTER MOVING ==============
 		const [stateAfter] = result.current;
 
 		expect(typeof stateAfter.board[1][0]).toBe("string");
@@ -353,7 +345,6 @@ describe("move_left", () => {
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
 
-		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
 
 		// horizontal line
@@ -364,7 +355,6 @@ describe("move_left", () => {
 
 		act(() => dispatch({ type: "move_left" }));
 
-		// ============== AFTER MOVING ==============
 		const [stateAfter] = result.current;
 
 		// horizontal line
@@ -373,11 +363,51 @@ describe("move_left", () => {
 		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
 		expect(isNil(stateAfter.board[1][3])).toBeTruthy();
 	});
+
+	// ============== TILE MERGING ==============
+	it("should merge tiles with the same value to the left of each other", () => {
+		const tile1: Tile = {
+			position: [0, 1],
+			value: 2,
+		};
+		const tile2: Tile = {
+			position: [3, 1],
+			value: 2,
+		};
+
+		const { result } = renderHook(() =>
+			useReducer(gameReducer, initialState),
+		);
+		const [, dispatch] = result.current;
+
+		act(() => {
+			dispatch({ type: "create_tile", tile: tile1 });
+			dispatch({ type: "create_tile", tile: tile2 });
+		});
+
+		const [stateBefore] = result.current;
+
+		// vertical line
+		expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+		expect(stateBefore.tiles[stateBefore.board[1][0]].value).toBe(2);
+		expect(isNil(stateBefore.board[2][0])).toBeTruthy();
+		expect(stateBefore.tiles[stateBefore.board[1][3]].value).toBe(2);
+
+		act(() => dispatch({ type: "move_left" }));
+
+		const [stateAfter] = result.current;
+
+		// vertical line
+		expect(isNil(stateAfter.board[1][1])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][3])).toBeTruthy();
+		expect(stateAfter.tiles[stateAfter.board[1][0]].value).toBe(4);
+	});
 });
 
 // ================================================ MOVE RIGHT 👉🏼 ================================================
 describe("move_right", () => {
-	it("should move tiles to the left of the board", () => {
+	it("should move tiles to the right of the board", () => {
 		const tile1: Tile = {
 			position: [0, 1],
 			value: 2,
@@ -398,7 +428,6 @@ describe("move_right", () => {
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
 
-		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
 
 		expect(isNil(stateBefore.board[1][3])).toBeTruthy();
@@ -408,7 +437,6 @@ describe("move_right", () => {
 
 		act(() => dispatch({ type: "move_right" }));
 
-		// ============== AFTER MOVING ==============
 		const [stateAfter] = result.current;
 
 		expect(typeof stateAfter.board[1][3]).toBe("string");
@@ -438,7 +466,6 @@ describe("move_right", () => {
 			dispatch({ type: "create_tile", tile: tile2 });
 		});
 
-		// ============== BEFORE MOVING ==============
 		const [stateBefore] = result.current;
 
 		// horizontal line
@@ -449,7 +476,6 @@ describe("move_right", () => {
 
 		act(() => dispatch({ type: "move_right" }));
 
-		// ============== AFTER MOVING ==============
 		const [stateAfter] = result.current;
 
 		// horizontal line
@@ -457,5 +483,45 @@ describe("move_right", () => {
 		expect(isNil(stateAfter.board[1][1])).toBeTruthy();
 		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
 		expect(typeof stateAfter.board[1][3]).toBe("string");
+	});
+
+	// ============== TILE MERGING ==============
+	it("should merge tiles with the same value to the right of each other", () => {
+		const tile1: Tile = {
+			position: [0, 1],
+			value: 2,
+		};
+		const tile2: Tile = {
+			position: [3, 1],
+			value: 2,
+		};
+
+		const { result } = renderHook(() =>
+			useReducer(gameReducer, initialState),
+		);
+		const [, dispatch] = result.current;
+
+		act(() => {
+			dispatch({ type: "create_tile", tile: tile1 });
+			dispatch({ type: "create_tile", tile: tile2 });
+		});
+
+		const [stateBefore] = result.current;
+
+		// horizontal line
+		expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+		expect(stateBefore.tiles[stateBefore.board[1][0]].value).toBe(2);
+		expect(isNil(stateBefore.board[2][0])).toBeTruthy();
+		expect(stateBefore.tiles[stateBefore.board[1][3]].value).toBe(2);
+
+		act(() => dispatch({ type: "move_right" }));
+
+		const [stateAfter] = result.current;
+
+		// horizontal line
+		expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][1])).toBeTruthy();
+		expect(isNil(stateAfter.board[1][2])).toBeTruthy();
+		expect(stateAfter.tiles[stateAfter.board[1][3]].value).toBe(4);
 	});
 });

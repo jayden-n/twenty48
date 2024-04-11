@@ -191,6 +191,13 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking..
 							newTiles[tileId] = {
 								...currentTile,
 								position: [newX - 1, y],
@@ -237,10 +244,18 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking...
 							newTiles[tileId] = {
 								...currentTile,
 								position: [newX + 1, y],
 							};
+
 							// resetting
 							previousTile = undefined;
 							continue;
