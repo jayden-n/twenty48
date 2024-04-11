@@ -26,6 +26,7 @@ describe("gameReducer", () => {
 		});
 	});
 
+	// ================================================ MOVE UP ⬆️ ================================================
 	describe("move_up", () => {
 		it("should move tiles to the top of the board", () => {
 			const tile1: Tile = {
@@ -117,8 +118,50 @@ describe("gameReducer", () => {
 			expect(isNil(stateAfter.board[2][0])).toBeTruthy();
 			expect(isNil(stateAfter.board[3][0])).toBeTruthy();
 		});
-	});
 
+		// ============== TILE MERGING ==============
+		it("should merge tiles with the same value on top of each other", () => {
+			const tile1: Tile = {
+				position: [0, 1],
+				value: 2,
+			};
+			const tile2: Tile = {
+				position: [0, 3],
+				value: 2,
+			};
+
+			const { result } = renderHook(() =>
+				useReducer(gameReducer, initialState),
+			);
+			const [, dispatch] = result.current;
+
+			act(() => {
+				dispatch({ type: "create_tile", tile: tile1 });
+				dispatch({ type: "create_tile", tile: tile2 });
+			});
+
+			// ============== BEFORE MOVING ==============
+			const [stateBefore] = result.current;
+
+			// vertical line
+			expect(isNil(stateBefore.board[0][0])).toBeTruthy();
+			expect(stateBefore.tiles[stateBefore.board[1][0]].value).toBe(2);
+			expect(isNil(stateBefore.board[2][0])).toBeTruthy();
+			expect(stateBefore.tiles[stateBefore.board[3][0]].value).toBe(2);
+
+			act(() => dispatch({ type: "move_up" }));
+
+			// ============== AFTER MOVING ==============
+			const [stateAfter] = result.current;
+
+			// vertical line
+			expect(stateAfter.tiles[stateAfter.board[0][0]].value).toBe(4);
+			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[2][0])).toBeTruthy();
+			expect(isNil(stateAfter.board[3][0])).toBeTruthy();
+		});
+	});
+	// ================================================ MOVE DOWN ⬇️ ================================================
 	describe("move_down", () => {
 		it("should move tiles to the bottom of the board", () => {
 			const tile1: Tile = {
@@ -204,6 +247,8 @@ describe("gameReducer", () => {
 	});
 });
 
+// ================================================ MOVE LEFT ⬅️ ================================================
+
 describe("move_left", () => {
 	it("should move tiles to the left of the board", () => {
 		const tile1: Tile = {
@@ -285,6 +330,8 @@ describe("move_left", () => {
 		expect(isNil(stateAfter.board[1][3])).toBeTruthy();
 	});
 });
+
+// ================================================ MOVE RIGHT 👉🏼 ================================================
 describe("move_right", () => {
 	it("should move tiles to the left of the board", () => {
 		const tile1: Tile = {
