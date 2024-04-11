@@ -3,6 +3,7 @@ import Tile from "./Tile";
 import { useEffect, useReducer, useRef } from "react";
 import { gameReducer, initialState } from "@/reducers/game-reducer";
 import { Tile as TileModel } from "@/models/tile";
+import { mergeAnimationDuration } from "@/constants";
 
 const Board = () => {
 	const [gameState, dispatch] = useReducer(gameReducer, initialState);
@@ -27,7 +28,9 @@ const Board = () => {
 				break;
 		}
 
-		dispatch({ type: "clean_up" });
+		setTimeout(() => {
+			dispatch({ type: "clean_up" });
+		}, mergeAnimationDuration); // wait for 100ms until values are merged
 	};
 
 	const renderGrid = () => {
@@ -65,14 +68,6 @@ const Board = () => {
 			dispatch({
 				type: "create_tile",
 				tile: { position: [0, 2], value: 2 },
-			});
-			dispatch({
-				type: "create_tile",
-				tile: { position: [0, 3], value: 4 },
-			});
-			dispatch({
-				type: "create_tile",
-				tile: { position: [2, 3], value: 4 },
 			});
 
 			// after the tiles have been created

@@ -9,10 +9,10 @@ describe("Board", () => {
 		expect(cellElement.length).toEqual(16);
 	});
 
-	it("should render board with 4 tiles", () => {
+	it("should render board with 2 tiles", () => {
 		const { container } = render(<Board />);
 		const tileElement = container.querySelectorAll(".tile");
 
-		expect(tileElement.length).toEqual(4);
+		expect(tileElement.length).toEqual(2);
 	});
 });
