@@ -60,7 +60,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: {
 					...state.tiles,
-					[tileId]: action.tile,
+					[tileId]: { id: tileId, ...action.tile }, // assigned ID for each tile getting created
 				},
 			};
 		}
@@ -85,6 +85,13 @@ export function gameReducer(state = initialState, action: Action) {
 					if (!isNil(tileId)) {
 						// if there was a tile above it with the same value, stacks together
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking...
 							newTiles[tileId] = {
 								...currentTile,
 								position: [x, newY - 1],

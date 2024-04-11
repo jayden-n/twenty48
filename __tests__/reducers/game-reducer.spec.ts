@@ -149,11 +149,13 @@ describe("gameReducer", () => {
 			expect(isNil(stateBefore.board[2][0])).toBeTruthy();
 			expect(stateBefore.tiles[stateBefore.board[3][0]].value).toBe(2);
 
+			console.log(stateBefore);
 			act(() => dispatch({ type: "move_up" }));
 
 			// ============== AFTER MOVING ==============
 			const [stateAfter] = result.current;
 
+			console.log(stateAfter);
 			// vertical line
 			expect(stateAfter.tiles[stateAfter.board[0][0]].value).toBe(4);
 			expect(isNil(stateAfter.board[1][0])).toBeTruthy();
