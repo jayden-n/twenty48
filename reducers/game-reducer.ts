@@ -1,6 +1,6 @@
 import { tileCountPerDimension } from "@/constants";
 import { Tile, TileMap } from "@/models/tile";
-import { isNil } from "lodash";
+import { flattenDeep, isNil } from "lodash";
 import { uid } from "uid";
 
 type State = {
@@ -18,7 +18,8 @@ type Action =
 	| { type: "move_up" }
 	| { type: "move_down" }
 	| { type: "move_left" }
-	| { type: "move_right" };
+	| { type: "move_right" }
+	| { type: "clean_up" };
 
 function createBoard() {
 	const board: string[][] = []; // 2-dimensional array
@@ -41,6 +42,27 @@ export const initialState: State = { board: createBoard(), tiles: {} };
 
 export function gameReducer(state = initialState, action: Action) {
 	switch (action.type) {
+		// ====================== CLEAN UP ======================
+		case "clean_up": {
+			const flattenBoard = flattenDeep(state.board); // converting into 1-dimensional array
+			const newTiles: TileMap = flattenBoard.reduce(
+				(result, currentTileId: string) => {
+					if (isNil(currentTileId)) {
+						return result;
+					}
+					return {
+						...result,
+						[currentTileId]: state.tiles[currentTileId],
+					};
+				},
+				{},
+			);
+			return {
+				...state,
+				tiles: newTiles,
+			};
+		}
+
 		// ====================== CREATE TILE ACTION ======================
 		case "create_tile": {
 			const tileId = uid((length = 1)); // placeholder ID for the new tile
@@ -60,7 +82,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: {
 					...state.tiles,
-					[tileId]: action.tile,
+					[tileId]: { id: tileId, ...action.tile }, // assigned ID for each tile getting created
 				},
 			};
 		}
@@ -85,6 +107,13 @@ export function gameReducer(state = initialState, action: Action) {
 					if (!isNil(tileId)) {
 						// if there was a tile above it with the same value, stacks together
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking...
 							newTiles[tileId] = {
 								...currentTile,
 								position: [x, newY - 1],
@@ -132,6 +161,13 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking...
 							newTiles[tileId] = {
 								...currentTile,
 								position: [x, newY + 1],
@@ -177,6 +213,13 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking..
 							newTiles[tileId] = {
 								...currentTile,
 								position: [newX - 1, y],
@@ -223,10 +266,18 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							// merging...
+							newTiles[previousTile.id as string] = {
+								...previousTile,
+								value: previousTile.value * 2,
+							};
+
+							// stacking...
 							newTiles[tileId] = {
 								...currentTile,
 								position: [newX + 1, y],
 							};
+
 							// resetting
 							previousTile = undefined;
 							continue;
