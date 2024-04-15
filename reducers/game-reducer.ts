@@ -8,6 +8,7 @@ type State = {
 	// hashmap
 	// contains many elements which will be mapped with Tile model.
 	tiles: TileMap;
+	tilesByIds: string[];
 };
 
 type Action =
@@ -38,7 +39,11 @@ function createBoard() {
 // 	[0, 0, 0, 0],
 // ];
 
-export const initialState: State = { board: createBoard(), tiles: {} };
+export const initialState: State = {
+	board: createBoard(),
+	tiles: {},
+	tilesByIds: [],
+};
 
 export function gameReducer(state = initialState, action: Action) {
 	switch (action.type) {
@@ -60,6 +65,7 @@ export function gameReducer(state = initialState, action: Action) {
 			return {
 				...state,
 				tiles: newTiles,
+				tilesByIds: Object.keys(newTiles),
 			};
 		}
 
@@ -84,6 +90,7 @@ export function gameReducer(state = initialState, action: Action) {
 					...state.tiles,
 					[tileId]: { id: tileId, ...action.tile }, // assigned ID for each tile getting created
 				},
+				tilesByIds: [...state.tilesByIds, tileId],
 			};
 		}
 

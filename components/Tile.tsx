@@ -21,7 +21,7 @@ const Tile = ({ position, value }: TileProps) => {
 	// wait until the component is rendered, animation will be triggered, then go back to normal size
 	useEffect(() => {
 		if (hasChanged) {
-			setScale(1.2);
+			setScale(1.1);
 			setTimeout(() => setScale(1), mergeAnimationDuration);
 		}
 	}, [hasChanged]);

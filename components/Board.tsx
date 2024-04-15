@@ -7,7 +7,7 @@ import { mergeAnimationDuration } from "@/constants";
 import { GameContext } from "@/context/game-context";
 
 const Board = () => {
-	const { appendRandomTile, gameState, dispatch } = useContext(GameContext);
+	const { appendRandomTile, getTiles, dispatch } = useContext(GameContext);
 	const initialized = useRef(false);
 
 	const handleKeyDown = useCallback(
@@ -42,25 +42,17 @@ const Board = () => {
 		const totalCellsCount = 16; // 4x4 dimensions
 		const cells: JSX.Element[] = [];
 
-		for (let index = 0; index < totalCellsCount; index++) {
-			cells.push(<div className={styles.cell} key={index}></div>);
+		for (let index = 0; index < totalCellsCount; index += 1) {
+			cells.push(<div className={styles.cell} key={index} />);
 		}
 
 		return cells;
 	};
 
 	const renderTiles = () => {
-		return Object.values(gameState.tiles).map(
-			(tile: TileModel, index: number) => {
-				return (
-					<Tile
-						key={`${index}`}
-						position={tile.position}
-						value={tile.value}
-					/>
-				);
-			},
-		);
+		return getTiles().map((tile: TileModel) => {
+			return <Tile key={`${tile.id}`} {...tile} />;
+		});
 	};
 
 	// dispatch funcs
