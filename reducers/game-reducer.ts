@@ -161,7 +161,7 @@ export function gameReducer(state = initialState, action: Action) {
 				let newY = tileCountPerDimension - 1;
 				let previousTile: Tile | undefined;
 
-				for (let y = 0; y < tileCountPerDimension; y++) {
+				for (let y = tileCountPerDimension - 1; y >= 0; y--) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 					const currentTile = state.tiles[tileId];
@@ -266,7 +266,7 @@ export function gameReducer(state = initialState, action: Action) {
 				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
-				for (let x = 0; x < tileCountPerDimension; x++) {
+				for (let x = tileCountPerDimension - 1; x >= 0; x--) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 					const currentTile = state.tiles[tileId];
