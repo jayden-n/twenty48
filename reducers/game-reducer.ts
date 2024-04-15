@@ -8,6 +8,7 @@ type State = {
 	// hashmap
 	// contains many elements which will be mapped with Tile model.
 	tiles: TileMap;
+	tilesByIds: string[];
 };
 
 type Action =
@@ -38,7 +39,11 @@ function createBoard() {
 // 	[0, 0, 0, 0],
 // ];
 
-export const initialState: State = { board: createBoard(), tiles: {} };
+export const initialState: State = {
+	board: createBoard(),
+	tiles: {},
+	tilesByIds: [],
+};
 
 export function gameReducer(state = initialState, action: Action) {
 	switch (action.type) {
@@ -60,6 +65,7 @@ export function gameReducer(state = initialState, action: Action) {
 			return {
 				...state,
 				tiles: newTiles,
+				tilesByIds: Object.keys(newTiles),
 			};
 		}
 
@@ -84,6 +90,7 @@ export function gameReducer(state = initialState, action: Action) {
 					...state.tiles,
 					[tileId]: { id: tileId, ...action.tile }, // assigned ID for each tile getting created
 				},
+				tilesByIds: [...state.tilesByIds, tileId],
 			};
 		}
 
@@ -154,7 +161,7 @@ export function gameReducer(state = initialState, action: Action) {
 				let newY = tileCountPerDimension - 1;
 				let previousTile: Tile | undefined;
 
-				for (let y = 0; y < tileCountPerDimension; y++) {
+				for (let y = tileCountPerDimension - 1; y >= 0; y--) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 					const currentTile = state.tiles[tileId];
@@ -259,7 +266,7 @@ export function gameReducer(state = initialState, action: Action) {
 				let previousTile: Tile | undefined;
 
 				// loop through each cell in the current column
-				for (let x = 0; x < tileCountPerDimension; x++) {
+				for (let x = tileCountPerDimension - 1; x >= 0; x--) {
 					// get the tile ID at the current cell position
 					const tileId = state.board[y][x];
 					const currentTile = state.tiles[tileId];
