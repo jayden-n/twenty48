@@ -25,7 +25,7 @@ type Action =
 function createBoard() {
 	const board: string[][] = []; // 2-dimensional array
 
-	for (let i = 0; i < tileCountPerDimension; i++) {
+	for (let i = 0; i < tileCountPerDimension; i += 1) {
 		board[i] = new Array(tileCountPerDimension).fill(undefined);
 	}
 
@@ -53,13 +53,13 @@ export function gameReducer(state = initialState, action: Action) {
 		case "clean_up": {
 			const flattenBoard = flattenDeep(state.board); // converting into 1-dimensional array
 			const newTiles: TileMap = flattenBoard.reduce(
-				(result, currentTileId: string) => {
-					if (isNil(currentTileId)) {
+				(result, tileId: string) => {
+					if (isNil(tileId)) {
 						return result;
 					}
 					return {
 						...result,
-						[currentTileId]: state.tiles[currentTileId],
+						[tileId]: state.tiles[tileId],
 					};
 				},
 				{},
@@ -74,7 +74,7 @@ export function gameReducer(state = initialState, action: Action) {
 
 		// ====================== CREATE TILE ACTION ======================
 		case "create_tile": {
-			const tileId = uid((length = 1)); // placeholder ID for the new tile
+			const tileId = uid(); // placeholder ID for the new tile
 			const [x, y] = action.tile.position; // axis
 			const newBoard = JSON.parse(JSON.stringify(state.board)); // creates a deep copy =>  ensures the original state is not mutated
 			newBoard[y][x] = tileId;
