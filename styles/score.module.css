@@ -1,0 +1,16 @@
+.score {
+	width: var(--pixel-size) * 75;
+	background: var(--secondary-background);
+	border: var(--pixel-size) solid var(--secondary-background);
+	border-radius: calc(var(--pixel-size) * 0.75);
+	color: var(--tile-background);
+	font-weight: bold;
+	font-size: calc(var(--pixel-size) * 2);
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.score > div {
+	font-size: calc(var(--pixel-size) * 3.5);
+	color: var(--primary-background);
+}

@@ -8,6 +8,7 @@ type State = {
 	tiles: TileMap;
 	tilesByIds: string[];
 	hasChanged: boolean;
+	score: number;
 };
 
 type Action =
@@ -43,6 +44,7 @@ export const initialState: State = {
 	tiles: {},
 	tilesByIds: [],
 	hasChanged: false,
+	score: 0,
 };
 
 export function gameReducer(state = initialState, action: Action) {
