@@ -29,6 +29,7 @@ Start dev server on [localhost](http://localhost:3000):
 
 -   [Next.js](https://nextjs.org/) + [React](https://react.dev) for building UI out of components
 -   [TypeScript](https://www.typescriptlang.org) for ensuring a self-documenting & type-safe codebase
+-   [React Context API](https://react.dev/reference/react/useContext) for handling app state management
 -   [Module CSS](https://nextjs.org/docs/app/building-your-application/styling/css-modules#css-modules) for responsive design with animations
 -   [Jest](https://jestjs.io/) for implementing unit testing
 -   [lodash](https://jestjs.io/) for tiles movements helper functions
