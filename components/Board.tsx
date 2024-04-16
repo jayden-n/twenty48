@@ -47,6 +47,7 @@ const Board = () => {
 
 	const renderTiles = () => {
 		return getTiles().map((tile: TileModel) => {
+			if (!tile) return null;
 			return <Tile key={`${tile.id}`} {...tile} />;
 		});
 	};
