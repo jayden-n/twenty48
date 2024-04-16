@@ -32,6 +32,7 @@ const Tile = ({ position, value }: TileProps) => {
 		left: positionToPixels(position[0]),
 		top: positionToPixels(position[1]),
 		transform: `scale(${scale})`,
+		zIndex: value, // smoother animation based on "greater" value
 	};
 
 	return (

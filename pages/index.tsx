@@ -9,7 +9,7 @@ export default function Home() {
 	return (
 		<div className={styles.twenty48}>
 			<Head>
-				<title>Play 2048</title>
+				<title>Play Twenty48!</title>
 				<meta name="description" content="2048 Game" />
 				<meta
 					name="viewport"
@@ -43,7 +43,9 @@ export default function Home() {
 			</main>
 
 			<footer>
-				<div>Made with ❤️ by Jayden N.</div>
+				<div style={{ fontSize: "17px" }}>
+					Made with ❤️ by Jayden N.
+				</div>
 				<div className={styles.socials}>
 					<a
 						href="https://github.com/jayden-n/twenty48"
