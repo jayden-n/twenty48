@@ -8,6 +8,8 @@
 [typescript-badge]: https://badges.frapsoft.com/typescript/code/typescript.svg?v=101
 [typescript-url]: https://github.com/microsoft/TypeScript
 
+[![](.docs/demo.gif)](https://twenty48.vercel.app/)
+
 ## Installation
 
 Start dev server on [localhost](http://localhost:3000):
