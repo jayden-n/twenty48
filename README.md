@@ -1,38 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Twenty48
 
-## Getting Started
+[![Open issues][issues-badge]][issues-url]
+[![TypeScript][typescript-badge]][typescript-url]
 
-First, run the development server:
+[issues-badge]: https://img.shields.io/github/issues/jayden-n/twenty48
+[issues-url]: https://github.com/jayden-n/twenty48/issues
+[typescript-badge]: https://badges.frapsoft.com/typescript/code/typescript.svg?v=101
+[typescript-url]: https://github.com/microsoft/TypeScript
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start dev server on [localhost](http://localhost:3000):
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+-   clone
+-   `npm install`
+-   `npm run dev`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Features
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+-   Fully-functional 2048 game clone
+-   Animations
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Technologies
 
-## Learn More
+-   [Next.js](https://nextjs.org/) + [React](https://react.dev) for building UI out of components
+-   [TypeScript](https://www.typescriptlang.org) for ensuring a self-documenting & type-safe codebase
+-   [Module CSS](https://nextjs.org/docs/app/building-your-application/styling/css-modules#css-modules) for responsive design with animations
+-   [Jest](https://jestjs.io/) for implementing unit testing
+-   [lodash](https://jestjs.io/) for tiles movements helper functions
 
-To learn more about Next.js, take a look at the following resources:
+## Running Unit Testing suite
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   `npm run test`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Running Test Coverage
 
-## Deploy on Vercel
+-   `npm run test-coverage`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Acknowledgement
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Created by [Jayden Nguyen](https://jaydennguyen.dev/). Based on the original Gameplay [2048!](https://play2048.co/)
