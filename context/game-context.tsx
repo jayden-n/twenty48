@@ -1,8 +1,8 @@
-import { tileCountPerDimension } from "@/constants";
+import { mergeAnimationDuration, tileCountPerDimension } from "@/constants";
 import { Tile } from "@/models/tile";
 import { gameReducer, initialState } from "@/reducers/game-reducer";
 import { isNil } from "lodash";
-import { PropsWithChildren, createContext, useReducer } from "react";
+import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
 export const GameContext = createContext({
 	appendRandomTile: () => {},
@@ -18,25 +18,22 @@ export default function GameProvider({ children }: PropsWithChildren) {
 
 		for (let x = 0; x < tileCountPerDimension; x++) {
 			for (let y = 0; y < tileCountPerDimension; y++) {
-				// finding empty cells
 				if (isNil(gameState.board[y][x])) {
 					results.push([x, y]);
 				}
 			}
 		}
-
 		return results;
 	};
 
 	const appendRandomTile = () => {
 		const emptyCells = getEmptyCells();
 		if (emptyCells.length > 0) {
-			const cellIndex = Math.floor(Math.random() * emptyCells.length); // getting random index
+			const cellIndex = Math.floor(Math.random() * emptyCells.length); //getting random index
 			const newTile = {
 				position: emptyCells[cellIndex],
 				value: 2,
 			};
-
 			dispatch({ type: "create_tile", tile: newTile });
 		}
 	};
@@ -47,6 +44,15 @@ export default function GameProvider({ children }: PropsWithChildren) {
 			(tileId: string) => gameState.tiles[tileId],
 		);
 	};
+
+	useEffect(() => {
+		if (gameState.hasChanged) {
+			setTimeout(() => {
+				dispatch({ type: "clean_up" });
+				appendRandomTile();
+			}, mergeAnimationDuration); // wait for 100ms until values are merged
+		}
+	}, [gameState.hasChanged]);
 
 	return (
 		<GameContext.Provider value={{ appendRandomTile, getTiles, dispatch }}>
