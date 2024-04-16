@@ -1,6 +1,7 @@
 # Twenty48
 
 [![Open issues][issues-badge]][issues-url]
+[![lint](https://github.com/jayden-n/twenty48/actions/workflows/lint.yml/badge.svg)](https://github.com/jayden-n/twenty48/actions/workflows/lint.yml)
 [![test](https://github.com/jayden-n/twenty48/actions/workflows/testing.yml/badge.svg)](https://github.com/jayden-n/twenty48/actions/workflows/testing.yml)
 [![TypeScript][typescript-badge]][typescript-url]
 
