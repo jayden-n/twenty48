@@ -9,6 +9,7 @@
 
 	/* Texts */
 	--primary-text-color: #776e65;
+	--secondary-text-color: #f9f6f2;
 }
 
 body {
@@ -25,9 +26,17 @@ body {
 		"Open Sans",
 		"Helvetica Neue",
 		sans-serif;
-
-	background-color: var(--primary-background);
+	background: var(--primary-background);
 	color: var(--primary-text-color);
 	font-size: calc(var(--pixel-size) * 2.25);
 	line-height: calc(var(--pixel-size) * 3.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+h1 {
+	font-size: calc(var(--pixel-size) * 6);
+	line-height: calc(var(--pixel-size) * 5);
+	margin: calc(var(--pixel-size) * 1.5) calc(var(--pixel-size) * 0);
 }
