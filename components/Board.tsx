@@ -7,7 +7,7 @@ import { Tile as TileModel } from "@/models/tile";
 import { GameContext } from "@/context/game-context";
 
 const Board = () => {
-	const { getTiles, dispatch } = useContext(GameContext);
+	const { getTiles, moveTiles, startGame } = useContext(GameContext);
 	const initialized = useRef(false);
 
 	const handleKeyDown = useCallback(
@@ -18,20 +18,20 @@ const Board = () => {
 			// tracking keystrokes
 			switch (e.code) {
 				case "ArrowUp":
-					dispatch({ type: "move_up" });
+					moveTiles("move_up");
 					break;
 				case "ArrowDown":
-					dispatch({ type: "move_down" });
+					moveTiles("move_down");
 					break;
 				case "ArrowLeft":
-					dispatch({ type: "move_left" });
+					moveTiles("move_left");
 					break;
 				case "ArrowRight":
-					dispatch({ type: "move_right" });
+					moveTiles("move_right");
 					break;
 			}
 		},
-		[dispatch],
+		[moveTiles],
 	);
 
 	const renderGrid = () => {
@@ -47,28 +47,20 @@ const Board = () => {
 
 	const renderTiles = () => {
 		return getTiles().map((tile: TileModel) => {
-			if (!tile) return null;
 			return <Tile key={`${tile.id}`} {...tile} />;
 		});
 	};
 
-	// dispatch funcs
+	// start game
 	useEffect(() => {
 		if (initialized.current === false) {
-			dispatch({
-				type: "create_tile",
-				tile: { position: [0, 1], value: 2 },
-			});
-			dispatch({
-				type: "create_tile",
-				tile: { position: [0, 2], value: 2 },
-			});
+			startGame();
 
 			// after the tiles have been created
 			// ...tiles should not be created again on subsequent renders
 			initialized.current = true;
 		}
-	}, [dispatch]);
+	}, [startGame]);
 
 	useEffect(() => {
 		window.addEventListener("keydown", handleKeyDown);
