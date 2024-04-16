@@ -16,5 +16,5 @@
 
 	/* animations */
 	transition-property: left, top, transform;
-	transition-duration: 100ms, 100ms, 100ms;
+	transition-duration: 200ms, 200ms, 100ms;
 }
