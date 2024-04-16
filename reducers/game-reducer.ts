@@ -102,6 +102,7 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 			let hasChanged = false;
+			let { score } = state; // new standalone variable so the state won't be mutated
 
 			for (let x = 0; x < tileCountPerDimension; x++) {
 				// game moves up ⬆️
@@ -118,6 +119,7 @@ export function gameReducer(state = initialState, action: Action) {
 					if (!isNil(tileId)) {
 						// if there was a tile above it with the same value, stacks together
 						if (previousTile?.value === currentTile.value) {
+							score += previousTile.value * 2;
 							// merging...
 							newTiles[previousTile.id as string] = {
 								...previousTile,
@@ -157,6 +159,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: newTiles,
 				hasChanged,
+				score,
 			};
 		}
 
@@ -165,6 +168,7 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 			let hasChanged = false;
+			let { score } = state; // new standalone variable so the state won't be mutated
 
 			for (let x = 0; x < tileCountPerDimension; x++) {
 				// game moves down ⬇️
@@ -178,6 +182,7 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							score += previousTile.value * 2;
 							// merging...
 							newTiles[previousTile.id as string] = {
 								...previousTile,
@@ -215,6 +220,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: newTiles,
 				hasChanged,
+				score,
 			};
 		}
 		// ====================== MOVE LEFT ACTION ======================
@@ -222,6 +228,7 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 			let hasChanged = false;
+			let { score } = state; // new standalone variable so the state won't be mutated
 
 			for (let y = 0; y < tileCountPerDimension; y++) {
 				// game moves left ⬅️
@@ -236,6 +243,7 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							score += previousTile.value * 2;
 							// merging...
 							newTiles[previousTile.id as string] = {
 								...previousTile,
@@ -273,6 +281,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: newTiles,
 				hasChanged,
+				score,
 			};
 		}
 
@@ -281,6 +290,7 @@ export function gameReducer(state = initialState, action: Action) {
 			const newBoard = createBoard();
 			const newTiles: TileMap = {};
 			let hasChanged = false;
+			let { score } = state; // new standalone variable so the state won't be mutated
 
 			for (let y = 0; y < tileCountPerDimension; y++) {
 				// game moves right 👉🏼
@@ -295,6 +305,7 @@ export function gameReducer(state = initialState, action: Action) {
 
 					if (!isNil(tileId)) {
 						if (previousTile?.value === currentTile.value) {
+							score += previousTile.value * 2;
 							// merging...
 							newTiles[previousTile.id as string] = {
 								...previousTile,
@@ -333,6 +344,7 @@ export function gameReducer(state = initialState, action: Action) {
 				board: newBoard,
 				tiles: newTiles,
 				hasChanged,
+				score,
 			};
 		}
 
