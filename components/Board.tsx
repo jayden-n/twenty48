@@ -3,15 +3,16 @@ import Tile from "./Tile";
 import { useCallback, useContext, useEffect, useRef } from "react";
 
 import { Tile as TileModel } from "@/models/tile";
-import { mergeAnimationDuration } from "@/constants";
+
 import { GameContext } from "@/context/game-context";
 
 const Board = () => {
-	const { appendRandomTile, getTiles, dispatch } = useContext(GameContext);
+	const { getTiles, dispatch } = useContext(GameContext);
 	const initialized = useRef(false);
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent) => {
+			// disables page scrolling with keyboard arrows
 			e.preventDefault();
 
 			// tracking keystrokes
@@ -29,13 +30,8 @@ const Board = () => {
 					dispatch({ type: "move_right" });
 					break;
 			}
-
-			setTimeout(() => {
-				dispatch({ type: "clean_up" });
-				appendRandomTile();
-			}, mergeAnimationDuration); // wait for 100ms until values are merged
 		},
-		[appendRandomTile, dispatch],
+		[dispatch],
 	);
 
 	const renderGrid = () => {
