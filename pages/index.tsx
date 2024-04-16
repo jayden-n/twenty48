@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "@/styles/index.module.css";
 import { FaGithub } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { FaChessKnight } from "react-icons/fa";
 
 export default function Home() {
 	return (
@@ -42,9 +43,28 @@ export default function Home() {
 				<Board />
 			</main>
 
+			<div className={styles.howToPlay}>
+				<p>
+					<span className={styles.highlight}>HOW TO PLAY:</span> Use
+					your <span className={styles.highlight}>arrow keys</span> to
+					move the tiles. Tiles with the same number{" "}
+					<span className={styles.highlight}>merge into one</span>{" "}
+					when they touch. Add them up to reach{" "}
+					<span className={styles.highlight}>2048!</span>
+				</p>
+			</div>
+			<div className={styles.line} />
 			<footer>
 				<div style={{ fontSize: "17px" }}>
-					Made with ❤️ by Jayden N.
+					Made with ❤️ by{" "}
+					<a
+						href="https://jaydennguyen.dev"
+						target="_blank"
+						rel="noopener"
+						style={{ color: "#776e65" }}
+					>
+						Jayden N.
+					</a>
 				</div>
 				<div className={styles.socials}>
 					<a
@@ -56,11 +76,11 @@ export default function Home() {
 					</a>
 
 					<a
-						href="https://jaydennguyen.dev"
+						href="https://www.chess.com/member/aintthatjayden"
 						target="_blank"
 						rel="noopener"
 					>
-						<FaUserCircle style={{ color: "#776e65" }} size={30} />
+						<FaChessKnight style={{ color: "#776e65" }} size={28} />
 					</a>
 				</div>
 			</footer>

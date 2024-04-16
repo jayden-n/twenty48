@@ -15,6 +15,17 @@
 	flex: 1;
 }
 
+.twenty48 > .line {
+	width: 100%;
+	height: 1px;
+	background: var(--primary-text-color);
+	opacity: 0.3;
+}
+
+.twenty48 > .howToPlay > p > .highlight {
+	font-weight: 700;
+}
+
 .twenty48 > footer {
 	font-weight: 600;
 	text-align: center;
